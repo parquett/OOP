@@ -1,22 +1,12 @@
+#include "Plane.h"
 #include <iostream>
-#include <string>
 using namespace std;
 
-class Plane {
-public:
-    // Constructor 
-    Plane(bool isFlying, double speed, string color)
-        : isFlying_(isFlying), speed_(speed), color_(color) {}
+Plane::Plane(bool isMoving, double speed, string color)
+    : isMoving_(isMoving), speed_(speed), color_(color) {}
 
-    void printState() const {
-        cout << "Plane State: " << (isFlying_ ? "Flying" : "Standing") << endl;
-        cout << "Speed: " << speed_ << " units per second" << endl;
-        cout << "Color: " << color_ << endl;
-    }
-
-private:
-    bool isFlying_;
-    double speed_;
-    string color_;
-};
-
+void Plane::printState() const {
+    cout << "Plane State: " << (isMoving_ ? "Moving" : "Standing") << endl;
+    cout << "Speed: " << speed_ << " units per second" << endl;
+    cout << "Color: " << color_ << endl;
+}
