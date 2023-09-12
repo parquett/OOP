@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "plane.cpp"
+#include "Plane.cpp"
 int main() {
     Plane myPlane(true, 500.0, "White");
 
