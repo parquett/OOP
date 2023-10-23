@@ -18,16 +18,26 @@ class FileMonitor:
             file_info = {
                 "Name": filename,
                 "Extension": os.path.splitext(filename)[1],
-                "Created": datetime.datetime.fromtimestamp(os.path.getctime(file_path)).strftime("%Y-%m-%d %H:%M:%S.%f"),
-                "Updated": datetime.datetime.fromtimestamp(os.path.getmtime(file_path)).strftime("%Y-%m-%d %H:%M:%S.%f"),
+                "Created": datetime.datetime.fromtimestamp(os.path.getctime(file_path)).strftime(
+                    "%Y-%m-%d %H:%M:%S.%f"),
+                "Updated": datetime.datetime.fromtimestamp(os.path.getmtime(file_path)).strftime(
+                    "%Y-%m-%d %H:%M:%S.%f"),
             }
             if file_info["Extension"] in {".jpg", ".png"}:
                 file_info["Image Size"] = self.get_image_size(file_path)
             elif file_info["Extension"] == ".txt":
-                file_info.update(self.get_text_file_info(file_path))
+                text_file_info = self.get_text_file_info(file_path)
+                file_info["Line Count"] = text_file_info["Line Count"]
+                file_info["Word Count"] = text_file_info["Word Count"]
+                file_info["Character Count"] = text_file_info["Character Count"]
             elif file_info["Extension"] in {".py", ".java"}:
-                file_info.update(self.get_program_file_info(file_path))
-            print(file_info)
+                program_file_info = self.get_program_file_info(file_path)
+                file_info["Line Count"] = program_file_info["Line Count"]
+                file_info["Class Count"] = program_file_info["Class Count"]
+                file_info["Method Count"] = program_file_info["Method Count"]
+
+            for key, value in file_info.items():
+                print(f"{key}: {value}")
         else:
             print(f"File '{filename}' not found in the folder.")
 
@@ -78,17 +88,27 @@ class FileMonitor:
             return
 
         status_output = []
-        current_time = datetime.datetime.now()
-        for filename in os.listdir(self.folder_path):
+        current_files = set(os.listdir(self.folder_path))
+        tracked_files = set(self.files.keys())
+
+        for filename in current_files:
             last_updated = datetime.datetime.fromtimestamp(os.path.getmtime(os.path.join(self.folder_path, filename)))
             if filename not in self.files:
                 self.files[filename] = last_updated
-            if last_updated > self.snapshot_time:
+                if last_updated > self.snapshot_time:
+                    status_output.append(f"{filename} - Created")
+                else:
+                    status_output.append(f"{filename} - No changes")
+            elif last_updated > self.snapshot_time:
                 status_output.append(f"{filename} - Changed")
             else:
                 status_output.append(f"{filename} - No changes")
 
+        for filename in tracked_files - current_files:
+            status_output.append(f"{filename} - Deleted")
+
         print(f"Created Snapshot at: {self.snapshot_time}")
         for entry in status_output:
             print(entry)
+
 
