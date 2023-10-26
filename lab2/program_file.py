@@ -1,5 +1,5 @@
 from file_info import FileInfo
-
+import re
 
 class ProgramFile(FileInfo):
     def __init__(self, file_path):
@@ -10,7 +10,17 @@ class ProgramFile(FileInfo):
             content = file.read()
         lines = content.split("\n")
         class_count = content.count("class ")
-        method_count = content.count("def ")
+        # Check the file extension
+        if self.extension == ".java":
+            # Java
+            method_count = len(re.findall(
+                r"(public|protected|private|static|\s) +[\w\<\>\[\]]+\s+(\w+) *\([^\)]*\) *(\{?|[^;])",
+                content))
+        elif self.extension == ".py":
+            # Python
+            method_count = content.count("def ")
+        else:
+            method_count = 0
         return {
             "Line Count": len(lines),
             "Class Count": class_count,
