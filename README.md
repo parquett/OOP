@@ -1,2 +1,2 @@
 # oop
-This repository contains all laboratory workk for OOP course
+This repository contains all laboratory works for OOP course
