@@ -1,0 +1,22 @@
+An abstract stack is a conceptual structure consisting of a set of homogeneous elements and is
+based on the principle of last in first out (LIFO). It is called abstract because it provides an abstract data type,
+irrespective of the actual implementation of the data type. In a stack, the element that is inserted last is
+accessed first. The operations associated with stack are:
+
+push(): Adds an element to the top of the stack.
+pop(): Removes an element from the top of the stack.
+peek() or top(): Returns the top element of the stack.
+isEmpty(): Checks if the stack is empty.
+size(): Returns the size of the stack.
+
+An abstract queue is also a conceptual structure consisting of a set of homogeneous elements and follows the
+First In First Out (FIFO) concept. Here, the element that is entered first will also be removed first.
+In contrast to stack, queue has two ends i.e., front and rear. The front indicates the place where elements
+are removed from and rear indicates where elements are added. The operations associated with queue are:
+
+enqueue(): Adds an element to the end of the queue.
+dequeue(): Removes an element from the front of the queue.
+isEmpty(): Checks if the queue is empty.
+front(): Returns the element at the front.
+rear(): Returns the element at the rear.
+size(): Returns the size of the queue.
